@@ -1,0 +1,21 @@
+version: "3"
+services:
+  test-app:
+    image: test-app:1.0
+    ports:
+      - "8080:8080"
+    networks:
+      - test-mysql
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    networks:
+      - test-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test_db
+
+networks:
+  test-mysql:

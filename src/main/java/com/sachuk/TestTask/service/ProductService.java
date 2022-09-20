@@ -21,7 +21,8 @@ public class ProductService {
     }
 
     public void save(Product product) {
-        productRepository.save(product);
+        if (!productRepository.findAll().contains(product))
+            productRepository.save(product);
     }
 
     public List<Product> findAll(){

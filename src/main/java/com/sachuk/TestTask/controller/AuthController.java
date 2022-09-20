@@ -1,8 +1,10 @@
 package com.sachuk.TestTask.controller;
 
+import com.sachuk.TestTask.exception.UserAlreadyExistException;
 import com.sachuk.TestTask.model.Role;
 import com.sachuk.TestTask.model.User;
 import com.sachuk.TestTask.repository.UserRepository;
+import com.sachuk.TestTask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -32,10 +37,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user){
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB != null)
-        {
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+        try {
+            userService.checkForExist(user.getUsername());
+        } catch (UserAlreadyExistException e) {
+            throw new RuntimeException(e);
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

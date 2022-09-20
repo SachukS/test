@@ -38,8 +38,8 @@ public class MainController {
     @PostMapping("/shops/add")
     public ResponseEntity<String> addShop(@RequestBody @Valid Shop shop,
                         @AuthenticationPrincipal User user) {
-        if (shopService.findAll().contains(shop))
-            return new ResponseEntity<>("Shop already exist", HttpStatus.BAD_REQUEST);
+        shopService.checkForExist(shop);
+
         shop.setCreator(user);
 
         if (shop.getShopsProducts()!=null) {
@@ -66,13 +66,9 @@ public class MainController {
     @PostMapping("/shops/{id}/products/add")
     public ResponseEntity<String> addProductToShop(@PathVariable("id") long id,
                                              @RequestBody @Valid Product product) {
-        Shop shop = shopService.findShopById(id);
+        Shop shop = shopService.checkForProductExistInShop(id, product);
 
-        if (shop.getShopsProducts().contains(product))
-            return new ResponseEntity<>("Product already exist in this shop", HttpStatus.BAD_REQUEST);
-
-        if (!productService.findAll().contains(product))
-            productService.save(product);
+        productService.save(product);
 
         shop.getShopsProducts().add(product);
         shopService.update(shop);

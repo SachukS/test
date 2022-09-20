@@ -10,10 +10,11 @@ This is the simple RESTfull Spring Boot Application, with some integration tests
 * Testing via [postman](https://www.getpostman.com/collections/d5ac6951c92cac4d5a35)
 
 ### How to set up?(example) ###
-* MySQL is using ("test_db" scheme)
+* MySQL is using
 * mvn clean install
 * mvn spring-boot:run
 
-### Docker ###
+### Docker (DB also dockerized) ###
 
-* docker build -t spring-test:1.0 .
+* docker build -t test-app:1.0 .
+* docker-compose up

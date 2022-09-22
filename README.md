@@ -14,7 +14,11 @@ This is the simple RESTfull Spring Boot Application, with some integration tests
 * mvn clean install
 * mvn spring-boot:run
 
-### Docker (DB also dockerized) ###
-
+### Docker (DB and front also dockerized) ###
+* mvn clean install
 * docker build -t test-app:1.0 .
 * docker-compose up
+
+### To start using ###
+* [localhost:4200](http://localhost:4200)
+* first you need to register new user (user with username containing 'admin' will have ADMIN role)

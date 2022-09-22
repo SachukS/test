@@ -45,17 +45,21 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ADMIN));
+        if (user.getUsername().contains("admin"))
+            user.setRoles(Collections.singleton(Role.ADMIN));
+        else
+            user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody User user){
+    public User authenticateUser(@RequestBody User user){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(), user.getPassword()));
 
+        User loginedUser = userRepository.findByUsername(user.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        return loginedUser;
     }
 }

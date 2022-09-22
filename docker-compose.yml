@@ -9,6 +9,18 @@ services:
     depends_on:
       - mysqldb
 
+  frontend:
+    image: frontend
+    networks:
+      - test-mysql
+    container_name: frontend
+    build:
+      context: ./src/main/frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - test-app
+
   mysqldb:
     image: mysql:5.7
     networks:

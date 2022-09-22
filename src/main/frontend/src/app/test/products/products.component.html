@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="row col-md-9">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of products">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>{{product.price}}</h3>
+        </div>
+        <div class="card-header">
+          <h4>{{product.name}}</h4>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{product.description}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <app-add-form #addC></app-add-form>
+  </div>
+</div>
